@@ -6,7 +6,7 @@
 4 - Add an item to a shopping list. (change the value of a key)
 5 - Remove an item from a shopping list. (update a value of a key)
 6 - Remove a list by nickname. (delete key/value from dictionary)
-7 - Exit when you are done. (break away from loop) 
+7 - Exit when you done are. (break away from loop) 
 
 - sorted
 - lower
@@ -15,105 +15,141 @@
 - after updating list/key, prompt user for more items.
 '''
 
-master_shopping_list = {}
+shopping_dict = {"Target":["shoes","socks","diapers","soap"], 
+"Safeway":["milk""eggs","apples", "oranges"], 
+"Farmers_Market":["kale","peaches","honey","cheese"], 
+"Macys":["skirt","belt","dress","tie"]}
 
 def menu_prompt():
 	#todo: add menu, print, while loop, include break
 	# continuosly prompt to add/remove items until user says 'EXIT' to break loop
 	print """
-	Here are your options:
-	0 - Main Menu"
-	1 - Show all lists.
+	Shopping List Options:
+	0 - Main Menu
+	1 - Show all lists.		
 	2 - Show a specific list.
 	3 - Add a new shopping list.
 	4 - Add an item to a shopping list.
 	5 - Remove an item from a shopping list.
 	6 - Remove a list by nickname.
-	7 - Exit when you are done.  
+	7 - Type exit when you are done. 
 	"""
-	menu_select = int(raw_input("Please enter your selection: ")))
-	return menu_select
+	option = raw_input("Please enter your selection: ")
+	return option
 
 
-def show_all_lists(master_shopping_list):
-	# print out lists
-	global master_shopping_list
-	print master_shopping_list.keys()
-	mini_menu = raw_input("Are you done?" ).lower()
-		if mini_menu == "yes"
-			return
-		else:
-			menu_prompt()
-
-def show_specific_list(master_shopping_list, specific_list):
-	#todo: print out specific key with it's values from dictionary
-	# make sure it's sorted/lowercase
-	global master_shopping_list
-	print master_shopping_list.items()
-	mini_menu = raw_input("Are you done?" ).lower()
-		if mini_menu == "yes"
-			return
-		else:
-			menu_prompt()
-	return
+def show_all_lists():
+	# print out all lists and sort alphabetically
+	global shopping_dict
+	lists = []
+	for key in shopping_dict.keys():
+		lists.append(key)
+		return lists.sort()
 	
 
-def add_list(master_shopping_list, make_list):
-	#todo: add a key and value to dictionary
-	# make sure key name is unique and item is not repeated in list (2 while loops)
-	# lowercase/sorted
-	# print out list, prompt user for more updates
-	pass
+def show_specific_list(specific_list):
+	#todo: print out specific key with it's values from dictionary
+	# make sure it's sorted/lowercase
+	global shopping_dict
+	specific_list = []
+	for value in shopping_dict.values():
+		specific_list.append(value)
+		return specific_list
 
-def add_item(master_shopping_list, make_item):
-	# todo: change key value in dictionary
-	# no dupes (check if value already exists in key)
-	# lower/sorted
-	# print out list, prompt user for more updates
-	pass
+	
+def add_list(make_list):
+# 	#todo: add a key and value to dictionary
+# 	# make sure key name is unique and item is not repeated in list (2 while loops)
+# 	# lowercase/sorted
+# 	# print out list, prompt user for more updates
+# 	pass
+	global shopping_dict
+	if make_list in shopping_dict:
+		print "This list %s already exists!" % (make_list)
+	else:
+		shopping_dict.append(make_list)
+	return shopping_dict.sort()
 
-def remove_item(master_shopping_list, rid_item):
-	# todo: update value of key
-	# lower/sorted
-	# print out list, prompt user for more updates
-	pass
+def add_item(make_item):
+# 	# todo: change key value in dictionary
+# 	# no dupes (check if value already exists in key)
+# 	# lower/sorted
+# 	# print out list, prompt user for more updates
+	global shopping_dict
+	if make_item in shopping_dict.values():
+		print "This item %s already exists!" % (make_item)
+	else:
+		shopping_dict.append(make_item)
+		return shopping_dict
 
-def remove_list( master_shopping_list, rid_list):
-	# todo: remove key and value from dictionary
-	#lower/sorted
-	# print out list, prompt user for more updates
-	pass
+def remove_item(rid_item):
+# 	# todo: update value of key
+# 	# lower/sorted
+# 	# print out list, prompt user for more updates
+	global shopping_dict
+	if rid_item.lower() not in shopping_dict.values():
+		print "This item %s not in list!" % (rid_item)
+	else:
+		shopping_dict.remove(rid_item)
+		return shopping_dict
 
-def sorted_items():
-	# sort items in list alphabetically
-	pass
+
+def remove_list(rid_list):
+# 	# todo: remove key and value from dictionary
+# 	#lower/sorted
+# 	# print out list, prompt user for more updates
+# 	global shopping_dict
+	if rid_list.lower() in shopping_dict.keys():
+		del shopping_dict[rid_list]
+		return shopping_dict
+	else:
+		if rid_list.lower() not in shopping_dict.keys():
+			print "This list %s not in list!" % (rid_list)
+	
+
+def continue_menu():
+	done = raw_input("Do you want to continue?").lower()
+	if done == 'yes':
+		return False
+	else:
+		return True
 
 
 def main():
-	menu_select = menu_prompt()
+	
 	while (True):
-		if menu_select == 0:
-			menu_prompt()
-		elif menu_select == 1:
-			show_all_lists()
-		elif menu_select == 2:
-			show_specific_list()
-		elif menu_select == 3:
-			add_list()
-		elif menu_select == 4:
-			add_item()
-		elif menu_select == 5:
+		option = menu_prompt()
+		if option.lower() == "exit":
+			break
+		elif option == "0":
+			pass
+		elif option == "1":
+			print show_all_lists()
+		elif option == "2":
+			print show_all_lists()
+			selection = raw_input("Which list would you like to see?").lower()
+			print show_specific_list(selection)
+		elif option == "3":
+			add_shop_list = raw_input("What list would you like to add?").lower()
+			print add_list(add_shop_list)
+			print continue_menu
+		elif option == "4":
+			add_shop_item = raw_input("What item would you like to add?").lower()
+			print add_item(add_shop_item)
+			print continue_menu
+		elif option == 5:
 			remove_item()
-		elif menu_select == 6:
+		elif option == 6:
 			remove_list()
 		else:
 			break
 
 
-	specific_list = raw_input("")
-	make_list = raw_input(" ")
-	make_item = raw_input(" ")
-	rid_item = raw_input(" ")
-	rid_list = raw_input(" ")
+# 	# specific_list = raw_input("")
+# 	# make_list = raw_input(" ")
+# 	# make_item = raw_input(" ")
+# 	# rid_item = raw_input(" ")
+# 	# rid_list = raw_input(" ")
 
-	
+if __name__ == '__main__':
+	main()
